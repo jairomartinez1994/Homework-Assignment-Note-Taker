@@ -29,10 +29,10 @@ server.get("/api/notes", function (req, res) {
 });
 
 server.get("/api/notes/:id", function (req, res) {
-    var choosen = req.params;
-    var myid=choosen.id
+    var chosen = req.params;
+    var myid=chosen.id
     
-    console.log("choosen....",myid);
+    console.log("chosen",myid);
    
      for(var i=0; i<noteData.length;i++){
         if(choosen===noteData[i].title){
