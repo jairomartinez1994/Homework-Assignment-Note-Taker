@@ -44,11 +44,11 @@ server.get("/api/notes/:id", function (req, res) {
 
 server.post("/api/notes", function (req, res) {
     var newNote = req.body;
-    console.log("new data enter",newNote);
+    console.log("Enter",newNote);
 
     
     noteData.push(newNote);
-    console.log("inside the array",noteData);
+    console.log("addtional data within the array",noteData);
     
     fs.writeFile("./db/db.json", JSON.stringify(noteData), function (err) {
         if (err) {
