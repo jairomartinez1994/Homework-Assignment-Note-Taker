@@ -29,10 +29,10 @@ server.get("/api/notes", function (req, res) {
 });
 
 server.get("/api/notes/:id", function (req, res) {
-    var chosen = req.params;
-    var myid=chosen.id
+    var choosen = req.params;
+    var myid=choosen.id
     
-    console.log("chosen",myid);
+    console.log("choosen....",myid);
    
      for(var i=0; i<noteData.length;i++){
         if(choosen===noteData[i].title){
@@ -44,23 +44,52 @@ server.get("/api/notes/:id", function (req, res) {
 
 server.post("/api/notes", function (req, res) {
     var newNote = req.body;
-    console.log("Enter",newNote);
+    var noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+    console.log("new data enter",newNote);
+    var newNote = req.body;
+    
+    var uniqueId = (noteData.length).toString();
+    
+    newNote.id = uniqueId;
+    console.log("new data enter", newNote);
+    
+
+    noteData.push(newNote);
+    console.log("inside the array",noteData);
+    
+    fs.writeFile("./db/db.json", JSON.stringify(noteData));
+    res.sendFile(path.join(__dirname, "./db/db.json"))
+    });
 
     
-    noteData.push(newNote);
-    console.log("addtional data within the array",noteData);
     
-    fs.writeFile("./db/db.json", JSON.stringify(noteData), function (err) {
-        if (err) {
-            throw err;
-        }
+
+    server.delete("/api/notes/:id", function (req, res) {
+        console.log("Called")
+    
+        var noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+        var choosen = req.params.id;
+        console.log(choosen)
+    
+        var newId = 0;
+        if (noteData.length > 0) {
+            noteData = noteData.filter(currentNote => {
+                return currentNote.id != choosen;
+            });
+            for (currentNote of noteData) {
+                currentNote.id = newId.toString();
+                newId++;
+            }
+            fs.writeFileSync("./db/db.json", JSON.stringify(noteData));
+            res.sendFile(path.join(__dirname, "./db/db.json"));
+        }else return;
+        
+    });
+
+    server.get("*", function (req, res) {
+        res.sendFile(path.join(__dirname, "./Develop/public/index.html"))
     });
     
-    res.sendFile(path.join(__dirname, "./db/db.json"))
-
-});
-
-
 
 server.listen(PORT, function () {
     console.log("Listening on PORT" + PORT);
