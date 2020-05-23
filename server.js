@@ -14,25 +14,25 @@ var noteData = [];
 
 
 
-server.use(express.urlencoded({ extended: true }));
-server.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
-server.get("/", function (req, res) {
+app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname, "./public/index.html"))
 });
-server.get("/notes", function (req, res) {
+app.get("/notes", function (req, res) {
     res.sendFile(path.join(__dirname, "./public/notes.html"))
 });
-server.get("/api/notes", function (req, res) {
+app.get("/api/notes", function (req, res) {
     
     res.sendFile(path.join(__dirname, "./db/db.json"))
 });
 
-server.get("/api/notes/:id", function (req, res) {
+app.get("/api/notes/:id", function (req, res) {
     var choosen = req.params;
     var myid=choosen.id
     
-    console.log("choosen....",myid);
+    console.log("choose",myid);
    
      for(var i=0; i<noteData.length;i++){
         if(choosen===noteData[i].title){
@@ -42,7 +42,7 @@ server.get("/api/notes/:id", function (req, res) {
 });
 
 
-server.post("/api/notes", function (req, res) {
+app.post("/api/notes", function (req, res) {
     var newNote = req.body;
     var noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
     console.log("new data enter",newNote);
@@ -64,7 +64,7 @@ server.post("/api/notes", function (req, res) {
     
     
 
-    server.delete("/api/notes/:id", function (req, res) {
+    app.delete("/api/notes/:id", function (req, res) {
         console.log("Called")
     
         var noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
@@ -86,7 +86,7 @@ server.post("/api/notes", function (req, res) {
         
     });
 
-    server.get("*", function (req, res) {
+    app.get("*", function (req, res) {
         res.sendFile(path.join(__dirname, "./public/index.html"))
     });
     
