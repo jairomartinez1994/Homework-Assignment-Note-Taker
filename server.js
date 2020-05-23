@@ -91,6 +91,6 @@ app.post("/api/notes", function (req, res) {
     });
     
 
-server.listen(PORT, function () {
+app.listen(PORT, function () {
     console.log("Listening on PORT" + PORT);
 })
