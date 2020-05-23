@@ -5,7 +5,7 @@ var fs = require("fs");
 var app = express();
 var PORT = process.env.PORT || 8080;
 
-server.use(express.static('public'))
+app.use(express.static('public'))
 
 var noteData = [];
 
