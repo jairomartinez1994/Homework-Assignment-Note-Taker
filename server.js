@@ -24,7 +24,7 @@ app.get("/api/notes", function (req, res) {
 });
 
 app.get("/api/notes/:id", function (req, res) {
-    var choosen = req.params;
+    var chosen = req.params;
     var myid=choosen.id
     
     console.log("choose",myid);
@@ -49,23 +49,23 @@ app.post("/api/notes", function (req, res) {
     
 
     noteData.push(newNote);
-    console.log("inside the array",noteData);
+    console.log("pushing a new note",noteData);
     
     fs.writeFile("./db/db.json", JSON.stringify(noteData));
     res.sendFile(path.join(__dirname, "./db/db.json"))
     });
 
     app.delete("/api/notes/:id", function (req, res) {
-        console.log("Called")
+        console.log("DELETE")
     
         var noteData = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
         var choosen = req.params.id;
-        console.log(choosen)
+        console.log("Choose wisely")
     
         var newId = 0;
         if (noteData.length > 0) {
             noteData = noteData.filter(currentNote => {
-                return currentNote.id != choosen;
+                return currentNote.id != chosen;
             });
             for (currentNote of noteData) {
                 currentNote.id = newId.toString();
