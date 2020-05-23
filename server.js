@@ -9,11 +9,6 @@ app.use(express.static('public'))
 
 var noteData = [];
 
-
-
-
-
-
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -37,10 +32,9 @@ app.get("/api/notes/:id", function (req, res) {
      for(var i=0; i<noteData.length;i++){
         if(choosen===noteData[i].title){
            return res.json(noteData[i]);
-        }
-     }
+}
+    }
 });
-
 
 app.post("/api/notes", function (req, res) {
     var newNote = req.body;
@@ -60,9 +54,6 @@ app.post("/api/notes", function (req, res) {
     fs.writeFile("./db/db.json", JSON.stringify(noteData));
     res.sendFile(path.join(__dirname, "./db/db.json"))
     });
-
-    
-    
 
     app.delete("/api/notes/:id", function (req, res) {
         console.log("Called")
@@ -90,7 +81,6 @@ app.post("/api/notes", function (req, res) {
         res.sendFile(path.join(__dirname, "./public/index.html"))
     });
     
-
 app.listen(PORT, function () {
-    console.log("Listening on PORT" + PORT);
+    console.log("NoteTaker is listening to" + PORT);
 })
